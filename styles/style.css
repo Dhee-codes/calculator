@@ -1,0 +1,129 @@
+/* || VARIABLES */
+
+:root {
+    --font-display: "Orbitron", sans-serif;
+    --font-body: "Inter", sans-serif;
+
+    --color-background: oklch(0 0.14 252);
+    --color-calc: oklch(0.24 0.08 252);
+    --color-base-btn: oklch(0.29 0.16 252);
+    --color-accent: oklch(0.92 0 252);
+    --color-brand: oklch(0.52 0.1 252);
+}
+
+/* || RESET */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    color: inherit;
+    font: inherit;
+    --webkit-tap-highlight-color: transparent;
+}
+
+/* || GENERAL */
+
+html {
+    font-size: 62.5%;
+}
+
+/* || Components */
+
+body {
+    color: var(--color-accent);
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.main_container {
+    width: 100%;
+    min-width: 250px;
+    max-width: 600px;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+    background-color: var(--color-background);
+    padding: 2px;
+}
+
+@media (min-width: 600px) {
+    .main_container {
+        height: 80dvh;
+    }
+}
+
+@media (min-width: 900px) {
+    .main_container {
+        width: 60%;
+    }
+}
+
+.output-display {
+    display: grid;
+    grid-template-rows: 4fr 5fr;
+    font-family: var(--font-display);
+    padding: 0 3%;
+}
+
+.history,
+.result {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.history {
+    font-size: clamp(1.5rem, calc(2vw + 1rem), 3rem);
+    font-weight: 300;
+    align-items: end;
+}
+
+.result {
+    font-size: clamp(2.5rem, calc(6.5vw + 1rem), 4.5rem);
+    font-weight: 500;
+    align-items: center;
+}
+
+.input-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.4rem;
+}
+
+button {
+    font-size: 3rem;
+    background-color: var(--color-brand);
+    border: none;
+    border-radius: 8px;
+    box-shadow: inset -1px -4px 6px rgba(0,0,0,0.2),
+                inset 1px 2px 4px rgba(255,255,255,0.7);
+
+}
+
+button:active {
+    opacity: 0.5;
+}
+
+button.all-clear {
+    background-color: oklch(0.32 0.05 252);
+}
+
+button.base {
+    background-color: var(--color-base-btn);
+}
+
+.zero {
+    grid-area: 5 / 1 / 5 / 3;
+}
+
+.equals {
+    grid-area: 4 / 4 / 6 / -1;
+}
