@@ -1,3 +1,7 @@
+const history = document.querySelector('.history');
+const result = document.querySelector('.result');
+const buttons = document.querySelectorAll('button')
+
 const operations = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
