@@ -1,17 +1,14 @@
-function add(a, b) {
-    return a + b;
+const operations = {
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    "/": (a, b) => a / b,
 }
 
-function subtract(a, b) {
-    return a - b;
+function operate(op, firstNum, secondNum) {
+    return operations[op](firstNum, secondNum)
 }
 
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
-
+const firstOperand = '';
+const operator = '';
+const secondOperand = '';
