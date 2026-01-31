@@ -67,7 +67,7 @@ options.addEventListener('click', (e) => {
         if (state.firstOperand !== '' && state.secondOperand !== '') {
             state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
             history.textContent = '';
-            history.textContent += state.firstOperand + state.operator;
+            history.textContent += state.firstOperand;
         }
         state.operator = e.target.dataset.operator;
         state.secondOperand = '';
