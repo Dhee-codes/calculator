@@ -27,11 +27,11 @@ function updateNumber(e) {
     if (state.isFirstOperand === true) {
         state.firstOperand += value;
         result.textContent = state.firstOperand;
-        history.textContent += state.firstOperand;
+        history.textContent += value;
     } else if (state.isFirstOperand === false) {
         state.secondOperand += value;
         result.textContent = state.secondOperand;
-        history.textContent += state.secondOperand;
+        history.textContent += value;
     }
     console.log(state);
 }
@@ -54,6 +54,7 @@ options.addEventListener('click', (e) => {
         if (state.justEvaluated === true) {
             state.firstOperand = state.firstOperand;
             state.justEvaluated = false;
+            history.textContent += state.firstOperand + state.operator;
         }
         state.isFirstOperand = false;
         if (state.firstOperand !== '' && state.secondOperand !== '') {
@@ -68,6 +69,7 @@ options.addEventListener('click', (e) => {
     }
 
     if (option === 'equal') {
+        // if (state.firstOperand === '' || state.operator === '' || state.secondOperand === '') return;
         state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
         history.textContent = '';
         state.justEvaluated = true;
