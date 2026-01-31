@@ -18,7 +18,7 @@ const state = {
     operator: '',
     secondOperand: '',
     isFirstOperand: true,
-    finalResult: '',
+    justEvaluated: false,
 }
 
 function updateNumber(e) {
@@ -40,13 +40,18 @@ options.addEventListener('click', (e) => {
     const option = e.target.dataset.option;
  
     if (option === 'digit' || option === 'point') {
+        if (state.justEvaluated === true) {
+            state.firstOperand = '';
+            state.justEvaluated = false;
+        }
         updateNumber(e);
         return;
     }
 
     if (option === 'operator') {
-        if (state.firstOperand === '') {
-            state.firstOperand = state.finalResult;
+        if (state.justEvaluated === true) {
+            state.firstOperand = state.firstOperand;
+            state.justEvaluated = false;
         }
         state.isFirstOperand = false;
         if (state.firstOperand !== '' && state.secondOperand !== '') {
@@ -54,12 +59,13 @@ options.addEventListener('click', (e) => {
         }
         state.operator = e.target.dataset.operator;
         state.secondOperand = '';
+        result.textContent = state.firstOperand;
     }
 
     if (option === 'equal') {
-        state.finalResult = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
-        result.textContent = state.finalResult;
-        state.firstOperand = '';
+        state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
+        state.justEvaluated = true;
+        result.textContent = state.firstOperand
         state.secondOperand = '';
         state.operator = '';
         state.isFirstOperand = true;
