@@ -6,7 +6,7 @@ const operations = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
-    "/": (a, b) => a / b,
+    "/": (a, b) => (b !== 0) ? a / b : 'ERR',
 }
 
 function operate(op, firstNum, secondNum) {
@@ -36,12 +36,18 @@ function updateNumber(e) {
     console.log(state);
 }
 
+const decimalPoint = options.querySelector('[data-option="point"');
+
 options.addEventListener('click', (e) => {
     if (e.target.tagName !== 'BUTTON') return;
 
     const option = e.target.dataset.option;
  
     if (option === 'digit' || option === 'point') {
+        if (option === 'point') {
+            decimalPoint.disabled = true;
+        }
+
         if (state.justEvaluated === true) {
             state.firstOperand = '';
             state.justEvaluated = false;
@@ -51,6 +57,7 @@ options.addEventListener('click', (e) => {
     }
 
     if (option === 'operator') {
+        decimalPoint.disabled = false;
         if (state.justEvaluated === true) {
             state.firstOperand = state.firstOperand;
             state.justEvaluated = false;
@@ -69,7 +76,8 @@ options.addEventListener('click', (e) => {
     }
 
     if (option === 'equal') {
-        // if (state.firstOperand === '' || state.operator === '' || state.secondOperand === '') return;
+        decimalPoint.disabled = false;
+        if (state.firstOperand === '' || state.operator === '' || state.secondOperand === '') return;
         state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
         history.textContent = '';
         state.justEvaluated = true;
