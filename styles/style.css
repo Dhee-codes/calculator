@@ -1,7 +1,7 @@
 /* || VARIABLES */
 
 :root {
-    --font-display: "Orbitron", sans-serif;
+    --font-display: "IBM Plex Mono", monospace;
     --font-body: "Inter", sans-serif;
 
     --color-background: oklch(0 0.14 252);
@@ -78,6 +78,7 @@ body {
 .result {
     display: flex;
     justify-content: flex-end;
+    overflow: hidden;
 }
 
 .history {

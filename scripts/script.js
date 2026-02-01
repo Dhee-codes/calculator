@@ -1,4 +1,6 @@
-const history = document.querySelector('.history');
+const firstOperandHistory = document.querySelector('.first-operand');
+const operatorHistory = document.querySelector('.operator');
+const secondOperandHistory = document.querySelector('.second-operand');
 const result = document.querySelector('.result');
 const options = document.querySelector('.input-buttons');
 
@@ -27,16 +29,16 @@ function updateNumber(e) {
     if (state.isFirstOperand === true) {
         state.firstOperand += value;
         result.textContent = state.firstOperand;
-        history.textContent += value;
+        firstOperandHistory.textContent += value;
     } else if (state.isFirstOperand === false) {
         state.secondOperand += value;
         result.textContent = state.secondOperand;
-        history.textContent += value;
+        secondOperandHistory.textContent += value;
     }
     console.log(state);
 }
 
-const decimalPoint = options.querySelector('[data-option="point"');
+const decimalPoint = options.querySelector('[data-option="point"]');
 
 options.addEventListener('click', (e) => {
     if (e.target.tagName !== 'BUTTON') return;
@@ -61,30 +63,65 @@ options.addEventListener('click', (e) => {
         if (state.justEvaluated === true) {
             state.firstOperand = state.firstOperand;
             state.justEvaluated = false;
-            history.textContent += state.firstOperand + state.operator;
+            firstOperandHistory.textContent += state.firstOperand
+            // history.textContent += state.operator;
         }
         state.isFirstOperand = false;
         if (state.firstOperand !== '' && state.secondOperand !== '') {
             state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
-            history.textContent = '';
-            history.textContent += state.firstOperand;
+            firstOperandHistory.textContent = '';
+            secondOperandHistory.textContent = '';
+            operatorHistory.textContent = '';
+            firstOperandHistory.textContent += state.firstOperand;
         }
         state.operator = e.target.dataset.operator;
         state.secondOperand = '';
         result.textContent = state.firstOperand;
-        history.textContent += state.operator;
+        operatorHistory.textContent = e.target.textContent;
     }
 
     if (option === 'equal') {
         decimalPoint.disabled = false;
         if (state.firstOperand === '' || state.operator === '' || state.secondOperand === '') return;
         state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
-        history.textContent = '';
+        firstOperandHistory.textContent = '';
+        secondOperandHistory.textContent = '';
+        operatorHistory.textContent = '';
         state.justEvaluated = true;
         result.textContent = state.firstOperand;
         state.secondOperand = '';
         state.operator = '';
         state.isFirstOperand = true;
+    }
+
+    if (option === 'clear-entry') {
+        if (state.isFirstOperand === true) {
+            if (state.firstOperand.length > 0) {
+                state.firstOperand = state.firstOperand.slice(0, -1);
+                firstOperandHistory.textContent = state.firstOperand;
+                result.textContent = state.firstOperand;
+            }
+        } else if (state.isFirstOperand === false) {
+            if (state.secondOperand.length > 0) {
+                state.secondOperand = state.secondOperand.slice(0, -1);
+                secondOperandHistory.textContent = state.secondOperand;
+                result.textContent = state.secondOperand;
+            }
+        }
+    }
+
+    if (option === 'all-clear') {
+        state.firstOperand = '';
+        state.secondOperand = '';
+        state.operator = '';
+        state.isFirstOperand = true;
+        state.justEvaluated = false;
+
+        decimalPoint.disabled = false;
+        firstOperandHistory.textContent = '';
+        secondOperandHistory.textContent = '';
+        operatorHistory.textContent = '';
+        result.textContent = '0';
     }
     console.log(state);
 });
