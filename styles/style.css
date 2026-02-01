@@ -8,6 +8,7 @@
     --color-calc: oklch(0.24 0.08 252);
     --color-base-btn: oklch(0.29 0.16 252);
     --color-accent: oklch(0.92 0 252);
+    --color-shade: oklch(0.24 0.04 252);
     --color-brand: oklch(0.52 0.1 252);
 }
 
@@ -35,6 +36,7 @@ html {
 
 body {
     color: var(--color-accent);
+    background-color: var(--color-background);
     min-height: 100dvh;
     display: flex;
     justify-content: center;
@@ -45,25 +47,49 @@ body {
 }
 
 .main_container {
+    position: relative;
     width: 100%;
     min-width: 250px;
     max-width: 600px;
     height: 100dvh;
     display: grid;
     grid-template-rows: 1fr 2fr;
-    background-color: var(--color-background);
+    background-color: var(--color-calc);
     padding: 2px;
 }
 
 @media (min-width: 600px) {
     .main_container {
-        height: 80dvh;
+        width: 60%;
+        height: 600px;
+        border-width: 6rem 4rem 4rem;
+        border-style: solid;
+        border-color: var(--color-shade);
+        border-radius: 3rem;
+    }
+    
+    h1 {
+        transform: translateY(-6rem);
+    }
+
+    .result {
+        margin-bottom: 1rem;
     }
 }
 
-@media (min-width: 900px) {
-    .main_container {
-        width: 60%;
+h1 {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: medium;
+    font-style: italic;
+    opacity: 0.6;
+}
+
+@media (min-width: 600px) {
+    h1 {
+        top: -4rem;
     }
 }
 
@@ -88,7 +114,7 @@ body {
 }
 
 .result {
-    font-size: clamp(2.5rem, calc(6.5vw + 1rem), 4.5rem);
+    font-size: clamp(2.5rem, calc(7vw + 1rem), 4.5rem);
     font-weight: 500;
     align-items: center;
 }

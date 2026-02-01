@@ -12,7 +12,9 @@ const operations = {
 }
 
 function operate(op, firstNum, secondNum) {
-    return operations[op](firstNum, secondNum)
+    const operationResult = operations[op](firstNum, secondNum);
+    if (operationResult === 'ERR') return 'ERR';
+    return Number(operationResult.toPrecision(12));;
 }
 
 const state = {
@@ -25,6 +27,13 @@ const state = {
 
 function updateNumber(e) {
     let value = e.target.textContent;
+
+    if (value === '.') {
+        const currentOperand = state.isFirstOperand ? state.firstOperand : state.secondOperand;
+        if (currentOperand.includes('.')) return; 
+        if (currentOperand === '') value = '0.';
+    }
+
 
     if (state.isFirstOperand === true) {
         state.firstOperand += value;
@@ -46,12 +55,9 @@ options.addEventListener('click', (e) => {
     const option = e.target.dataset.option;
  
     if (option === 'digit' || option === 'point') {
-        if (option === 'point') {
-            decimalPoint.disabled = true;
-        }
-
         if (state.justEvaluated === true) {
             state.firstOperand = '';
+            state.secondOperand = '';
             state.justEvaluated = false;
         }
         updateNumber(e);
@@ -59,16 +65,26 @@ options.addEventListener('click', (e) => {
     }
 
     if (option === 'operator') {
-        decimalPoint.disabled = false;
+        if (state.firstOperand === '') return;
         if (state.justEvaluated === true) {
-            state.firstOperand = state.firstOperand;
+            state.firstOperand = (state.firstOperand !== 'ERR') ? state.firstOperand : '';
             state.justEvaluated = false;
-            firstOperandHistory.textContent += state.firstOperand
-            // history.textContent += state.operator;
+            firstOperandHistory.textContent += state.firstOperand;
         }
         state.isFirstOperand = false;
         if (state.firstOperand !== '' && state.secondOperand !== '') {
             state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
+            if (state.firstOperand === 'ERR') {
+                state.firstOperand = '';
+                state.secondOperand = '';
+                result.textContent = 'ERR';
+                firstOperandHistory.textContent = '';
+                secondOperandHistory.textContent = '';
+                operatorHistory.textContent = '';
+                state.justEvaluated = true;
+                state.isFirstOperand = true;
+                return;
+            }
             firstOperandHistory.textContent = '';
             secondOperandHistory.textContent = '';
             operatorHistory.textContent = '';
@@ -81,9 +97,19 @@ options.addEventListener('click', (e) => {
     }
 
     if (option === 'equal') {
-        decimalPoint.disabled = false;
         if (state.firstOperand === '' || state.operator === '' || state.secondOperand === '') return;
         state.firstOperand = String(operate(state.operator, Number(state.firstOperand), Number(state.secondOperand)));
+        if (state.firstOperand === 'ERR') {
+            state.firstOperand = '';
+            state.secondOperand = '';
+            result.textContent = 'ERR';
+            firstOperandHistory.textContent = '';
+            secondOperandHistory.textContent = '';
+            operatorHistory.textContent = '';
+            state.justEvaluated = true;
+            state.isFirstOperand = true;
+            return;
+        }
         firstOperandHistory.textContent = '';
         secondOperandHistory.textContent = '';
         operatorHistory.textContent = '';
@@ -117,7 +143,6 @@ options.addEventListener('click', (e) => {
         state.isFirstOperand = true;
         state.justEvaluated = false;
 
-        decimalPoint.disabled = false;
         firstOperandHistory.textContent = '';
         secondOperandHistory.textContent = '';
         operatorHistory.textContent = '';
