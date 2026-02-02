@@ -69,7 +69,7 @@ options.addEventListener('click', (e) => {
         if (state.justEvaluated === true) {
             state.firstOperand = (state.firstOperand !== 'ERR') ? state.firstOperand : '';
             state.justEvaluated = false;
-            firstOperandHistory.textContent += state.firstOperand;
+            firstOperandHistory.textContent = state.firstOperand;
         }
         state.isFirstOperand = false;
         if (state.firstOperand !== '' && state.secondOperand !== '') {
