@@ -16,7 +16,7 @@ const operations = {
 function operate(op, firstNum, secondNum) {
     const operationResult = operations[op](firstNum, secondNum);
     if (operationResult === 'ERR') return 'ERR';
-    return Number(operationResult.toPrecision(12));;
+    return Number(operationResult.toPrecision(10));;
 }
 
 const state = {
