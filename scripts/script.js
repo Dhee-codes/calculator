@@ -4,6 +4,8 @@ const secondOperandHistory = document.querySelector('.second-operand');
 const result = document.querySelector('.result');
 const options = document.querySelector('.input-buttons');
 
+document.addEventListener('keydown', handleKeydown);
+
 const operations = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
@@ -23,6 +25,34 @@ const state = {
     secondOperand: '',
     isFirstOperand: true,
     justEvaluated: false,
+}
+
+const keyMap = {
+    '0': '[data-option="digit"][data-digit="0"]', '1': '[data-option="digit"][data-digit="1"]',
+    '2': '[data-option="digit"][data-digit="2"]', '3': '[data-option="digit"][data-digit="3"]',
+    '4': '[data-option="digit"][data-digit="4"]', '5': '[data-option="digit"][data-digit="5"]',
+    '6': '[data-option="digit"][data-digit="6"]', '7': '[data-option="digit"][data-digit="7"]',
+    '8': '[data-option="digit"][data-digit="8"]', '9': '[data-option="digit"][data-digit="9"]',
+    '.': '[data-option="point"]', 'Decimal': '[data-option="point"]',
+    '+': '[data-option="operator"][data-operator="+"]', '-': '[data-option="operator"][data-operator="-"]',
+    '*': '[data-option="operator"][data-operator="*"]', '/': '[data-option="operator"][data-operator="/"]',
+    '=': '[data-option="equal"]', 'Enter': '[data-option="equal"]',
+    'Backspace': '[data-option="clear-entry"]',
+    'Escape': '[data-option="all-clear"]', 'Delete': '[data-option="all-clear"]',
+};
+
+function handleKeydown(e) {
+    const selector = keyMap[e.key];
+    if (!selector) return;
+
+    e.preventDefault();
+
+    const button = options.querySelector(selector);
+    if (button) {
+        button.classList.add('active');
+        setTimeout(() => button.classList.remove('active'), 100);
+        button.click();
+    }
 }
 
 function updateNumber(e) {
